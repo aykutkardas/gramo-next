@@ -29,6 +29,7 @@ export default function Home() {
     setFocusAreas,
     copyText,
     analyzeText,
+    isStale,
   } = useTextAnalysis();
 
   const styleOptions: { value: OutputStyle; label: string }[] = [
@@ -78,14 +79,27 @@ export default function Home() {
                   ))}
                 </select>
                 <button
-                  onClick={analyzeText}
+                  onClick={() => analyzeText(0)}
                   disabled={isLoading || !text.trim()}
-                  className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50"
+                  className={`
+                    inline-flex h-9 items-center justify-center rounded-md px-4 text-sm font-medium
+                    transition-colors disabled:pointer-events-none disabled:opacity-50
+                    ${
+                      isStale && analysis
+                        ? "bg-amber-500 hover:bg-amber-500/90 text-amber-50"
+                        : "bg-primary hover:bg-primary/90 text-primary-foreground"
+                    }
+                  `}
                 >
                   {isLoading ? (
                     <>
                       <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
                       Analyzing...
+                    </>
+                  ) : isStale && analysis ? (
+                    <>
+                      <ArrowPathIcon className="mr-2 h-4 w-4" />
+                      Update Analysis
                     </>
                   ) : (
                     "Analyze Text"
