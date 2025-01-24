@@ -1,14 +1,9 @@
 fastapi
 uvicorn
 python-dotenv
-groq
-crewai
-langchain
-langchain-groq
-langchain-core
 pydantic
-litellm
-python-jose
 httpx
-pytest
+python-jose
 tenacity
+groq
+litellm

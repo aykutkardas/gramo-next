@@ -4,7 +4,6 @@ __pycache__/
 *$py.class
 *.so
 .Python
-venv/
 env/
 build/
 develop-eggs/
@@ -36,3 +35,8 @@ wheels/
 *.log
 
 .groq
+
+# Python virtual environments
+.venv/
+venv/
+ENV/

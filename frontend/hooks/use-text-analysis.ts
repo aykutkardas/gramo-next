@@ -73,7 +73,7 @@ export function useTextAnalysis() {
     setState((prev) => ({ ...prev, isLoading: true }));
     try {
       const response = await axios.post<AnalysisResult>(
-        "http://localhost:8000/analyze",
+        "http://localhost:8000/api/v1/text/analyze",
         {
           text: state.text,
           style: state.outputStyle,
