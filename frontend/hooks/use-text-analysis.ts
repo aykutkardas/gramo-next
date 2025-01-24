@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import axios, { AxiosError } from "axios";
 import { AnalysisResult, OutputStyle } from "@/types/text-analysis";
+import { config } from "@/lib/config";
 
 interface TextAnalysisState {
   text: string;
@@ -67,7 +68,7 @@ export function useTextAnalysis() {
 
       try {
         const response = await axios.post<AnalysisResult>(
-          "http://localhost:8000/api/v1/text/analyze",
+          `${config.apiUrl}/api/v1/text/analyze`,
           {
             text: state.text,
             style: state.outputStyle,
