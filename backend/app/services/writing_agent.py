@@ -5,8 +5,53 @@ import litellm
 from ..utils.text_analysis import calculate_text_stats, analyze_writing_tone
 from ..utils.rate_limiter import TokenBucketRateLimiter, RateLimitExceeded
 import os
+import asyncio
+import re
 
 logger = logging.getLogger(__name__)
+
+# Configure LiteLLM
+litellm.set_verbose = False
+litellm.success_callback = []
+litellm.failure_callback = []
+
+def clean_json_string(s: str) -> str:
+    """Clean and prepare a string for JSON parsing."""
+    try:
+        # Remove code block markers
+        if '```' in s:
+            pattern = r'```(?:json)?(.*?)```'
+            matches = re.findall(pattern, s, re.DOTALL)
+            if matches:
+                s = matches[0]
+        
+        # Remove any leading/trailing whitespace
+        s = s.strip()
+        
+        # Fix invalid escape sequences
+        s = re.sub(r'\\([^"\/bfnrtu\\])', r'\1', s)
+        
+        # Handle proper escape characters
+        escapes = {
+            '\\"': '"',     # Unescape quotes
+            '\\n': '\n',    # Convert \n to newline
+            '\\t': '\t',    # Convert \t to tab
+            '\\\\': '\\',   # Handle escaped backslashes
+            '\\/': '/',     # Handle escaped forward slashes
+            '\\b': '\b',    # Handle backspace
+            '\\f': '\f',    # Handle form feed
+            '\\r': '\r'     # Handle carriage return
+        }
+        for escape_from, escape_to in escapes.items():
+            s = s.replace(escape_from, escape_to)
+        
+        # Remove any BOM or special characters
+        s = s.encode('utf-8', 'ignore').decode('utf-8')
+        
+        return s
+    except Exception as e:
+        logger.error(f"Error cleaning JSON string: {str(e)}")
+        return s
 
 class WritingAgent:
     """Service for analyzing and improving text using AI agents."""
@@ -201,30 +246,73 @@ Return a JSON object with this structure:
         Raises:
             RateLimitExceeded: If rate limit is exceeded
         """
-        try:
-            # Estimate token usage (rough estimate)
-            estimated_tokens = len(prompt.split()) + 500  # Add buffer for response
-            await self.rate_limiter.acquire(estimated_tokens)
-            
-            messages = [
-                agent,
-                {"role": "user", "content": prompt}
-            ]
-            
-            response = await litellm.acompletion(
-                model="groq/mixtral-8x7b-32768",
-                messages=messages,
-                temperature=0.7,
-                max_tokens=1000,
-                api_key=os.getenv("GROQ_API_KEY")
-            )
-            
+        max_retries = 3
+        base_delay = 3  # seconds
+        
+        for attempt in range(max_retries):
             try:
-                return json.loads(response.choices[0].message.content)
-            except json.JSONDecodeError as e:
-                logger.error(f"Failed to parse agent response: {str(e)}")
+                # Estimate token usage (rough estimate)
+                estimated_tokens = len(prompt.split()) + 500  # Add buffer for response
+                await self.rate_limiter.acquire(estimated_tokens)
+                
+                messages = [
+                    agent,
+                    {"role": "user", "content": prompt}
+                ]
+                
+                try:
+                    response = await litellm.acompletion(
+                        model="groq/mixtral-8x7b-32768",
+                        messages=messages,
+                        temperature=0.7,
+                        max_tokens=1000,
+                        api_key=os.getenv("GROQ_API_KEY")
+                    )
+                    
+                    content = response.choices[0].message.content
+                    logger.debug(f"Raw API response content: {content}")
+                    
+                    # Clean and prepare the content for JSON parsing
+                    cleaned_content = clean_json_string(content)
+                    logger.debug(f"Cleaned content: {cleaned_content}")
+                    
+                    # Try multiple parsing approaches
+                    try:
+                        # First try: direct JSON parsing
+                        return json.loads(cleaned_content)
+                    except json.JSONDecodeError as e1:
+                        logger.warning(f"Initial JSON parsing failed: {str(e1)}")
+                        try:
+                            # Second try: handle potential string escaping
+                            return json.loads(cleaned_content.encode('utf-8').decode('unicode-escape'))
+                        except json.JSONDecodeError as e2:
+                            logger.warning(f"Second JSON parsing attempt failed: {str(e2)}")
+                            try:
+                                # Third try: use ast.literal_eval
+                                import ast
+                                parsed = ast.literal_eval(cleaned_content)
+                                if isinstance(parsed, dict):
+                                    return parsed
+                                logger.error("Parsed content is not a dictionary")
+                            except Exception as e3:
+                                logger.error(f"All parsing attempts failed: {str(e3)}")
+                                logger.error(f"Problematic content: {cleaned_content}")
+                                return None
+                        
+                except litellm.RateLimitError as e:
+                    wait_time = base_delay * (2 ** attempt)  # Exponential backoff
+                    logger.warning(f"Rate limit hit, attempt {attempt + 1}/{max_retries}. Waiting {wait_time}s")
+                    await asyncio.sleep(wait_time)
+                    continue
+                    
+            except Exception as e:
+                logger.error(f"Error processing with agent: {str(e)}")
+                if attempt < max_retries - 1:
+                    wait_time = base_delay * (2 ** attempt)
+                    logger.info(f"Retrying in {wait_time}s... (attempt {attempt + 1}/{max_retries})")
+                    await asyncio.sleep(wait_time)
+                    continue
                 return None
                 
-        except Exception as e:
-            logger.error(f"Error processing with agent: {str(e)}")
-            return None 
+        logger.error("All retry attempts failed")
+        return None 
