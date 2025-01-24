@@ -4,12 +4,19 @@ Gramo is a modern, AI-powered text enhancement platform that helps users improve
 
 ## Features
 
-- **Real-time Text Analysis**: Get instant feedback on your writing
-- **Grammar & Spelling**: Advanced detection and correction of grammar and spelling errors
-- **Style Enhancement**: Suggestions for improving writing style and tone
-- **Readability Metrics**: Detailed statistics about text complexity and readability
-- **Tone Analysis**: Understanding and adjusting the tone of your writing
-- **Modern UI**: Clean, responsive interface with dark mode support
+- **Intelligent Text Analysis**: Get comprehensive feedback on grammar, style, and structure
+- **Multiple Output Styles**:
+  - Grammar Fix: Correct grammatical errors while preserving meaning
+  - Friendly Tone: Transform text into a more approachable style
+  - Professional Polish: Enhance formality and business appropriateness
+  - Concise Writing: Streamline text while maintaining key information
+- **Focus Areas**:
+  - Grammar: Identify and fix grammatical issues
+  - Style: Enhance writing style and tone
+  - Structure: Improve text organization and flow
+- **Real-time Updates**: See changes and improvements instantly
+- **Goal Achievement Tracking**: Monitor how well the text meets intended objectives
+- **Modern UI**: Clean, responsive interface with dark mode support and intuitive controls
 
 ## Tech Stack
 
@@ -19,15 +26,17 @@ Gramo is a modern, AI-powered text enhancement platform that helps users improve
 - TypeScript
 - Tailwind CSS
 - Shadcn/ui Components
+- Custom React Hooks for state management
 - Axios for API communication
 
 ### Backend
 
 - FastAPI
 - Python 3.11+
-- LangChain
+- LangChain for LLM orchestration
 - Groq for LLM integration
 - Pydantic for data validation
+- Custom text analysis utilities
 
 ## Getting Started
 
@@ -87,19 +96,34 @@ npm run dev
 gramo/
 ├── backend/
 │   ├── app/
-│   │   ├── main.py          # FastAPI application
-│   │   ├── agents.py        # LLM agents and chains
-│   │   └── test_agents.py   # Test cases
+│   │   ├── config/
+│   │   │   └── settings.py     # Application configuration
+│   │   ├── models/
+│   │   │   └── text_analysis.py # Data models
+│   │   ├── routers/
+│   │   │   └── text_analysis.py # API endpoints
+│   │   ├── services/
+│   │   │   └── writing_agent.py # LLM integration
+│   │   ├── utils/
+│   │   │   ├── text_analysis.py # Analysis utilities
+│   │   │   └── rate_limiter.py  # API rate limiting
+│   │   ├── main.py             # FastAPI application
+│   │   └── test_agents.py      # Test cases
 │   ├── requirements.txt
 │   └── .env
 └── frontend/
     ├── app/
-    │   ├── page.tsx         # Main application page
-    │   ├── layout.tsx       # Root layout
-    │   └── globals.css      # Global styles
-    ├── components/          # Reusable UI components
-    ├── package.json
-    └── tailwind.config.ts
+    │   └── page.tsx            # Main application page
+    ├── components/
+    │   ├── text-analysis/
+    │   │   ├── text-analysis-overview.tsx
+    │   │   ├── improved-text.tsx
+    │   │   ├── goal-achievement.tsx
+    │   │   └── grammar-issues.tsx
+    │   └── ui/                 # Reusable UI components
+    ├── hooks/
+    │   └── use-text-analysis.ts # Custom text analysis hook
+    └── types/                  # TypeScript type definitions
 ```
 
 ## Contributing
