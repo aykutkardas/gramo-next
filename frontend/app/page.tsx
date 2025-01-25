@@ -2,6 +2,7 @@
 
 import React from "react";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { Github } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -45,9 +46,20 @@ export default function Home() {
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-4xl mx-auto space-y-12">
         <div className="space-y-4">
-          <h1 className="text-4xl font-bold tracking-tight text-foreground">
-            AI Writing Assistant
-          </h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-4xl font-bold tracking-tight text-foreground">
+              AI Writing Assistant
+            </h1>
+            <a
+              href="https://github.com/onurhan1337/gramo"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Github className="w-5 h-5" />
+              GitHub
+            </a>
+          </div>
           <p className="text-muted-foreground text-lg">
             Improve your writing with AI-powered analysis
           </p>
