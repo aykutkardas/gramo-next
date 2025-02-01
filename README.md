@@ -1,5 +1,7 @@
 # Gramo - Advanced Text Enhancement Platform
 
+This project was forked from [onurhan1337/gramo](https://github.com/onurhan1337/gramo) to migrate from Python to Next.js and fal.ai.
+
 Gramo is a modern, AI-powered text enhancement platform that helps users improve their writing through advanced grammar checking, style analysis, and intelligent suggestions. The platform combines the power of large language models with a beautiful, user-friendly interface to provide comprehensive writing assistance.
 
 ## Features
