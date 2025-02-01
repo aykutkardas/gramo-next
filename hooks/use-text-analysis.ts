@@ -1,12 +1,6 @@
-import { fal } from "@fal-ai/client";
-
 import { useState, useCallback } from "react";
 import { AnalysisResult, OutputStyle } from "@/types/text-analysis";
 import { WritingAgent } from "@/lib/writing-agent";
-
-fal.config({
-  proxyUrl: "/api/proxy",
-});
 
 interface TextAnalysisState {
   text: string;
