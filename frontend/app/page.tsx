@@ -120,7 +120,12 @@ export default function Home() {
               </div>
             </div>
 
-            <Accordion type="single" collapsible className="w-full">
+            <Accordion
+              type="single"
+              collapsible
+              className="w-full"
+              value="focus-areas"
+            >
               <AccordionItem value="focus-areas">
                 <AccordionTrigger className="hover:no-underline">
                   <div className="flex items-center space-x-2">

@@ -27,24 +27,13 @@ Gramo is a modern, AI-powered text enhancement platform that helps users improve
 - Tailwind CSS
 - Shadcn/ui Components
 - Custom React Hooks for state management
-- Axios for API communication
-
-### Backend
-
-- FastAPI
-- Python 3.11+
-- LangChain for LLM orchestration
-- Groq for LLM integration
-- Pydantic for data validation
-- Custom text analysis utilities
 
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js 18+ for frontend
-- Python 3.11+ for backend
-- Groq API key
+- Fal API key
 
 ### Installation
 
@@ -55,76 +44,19 @@ git clone https://github.com/yourusername/gramo.git
 cd gramo
 ```
 
-2. Set up the backend:
+3. Install Dependencies
 
 ```bash
-cd backend
-python -m venv venv
-source venv/bin/activate  # On Windows: .\venv\Scripts\activate
-pip install -r requirements.txt
-cp .env.example .env  # Edit .env with your Groq API key
-```
-
-3. Set up the frontend:
-
-```bash
-cd frontend
 npm install
 ```
 
-### Running the Application
-
-1. Start the backend server:
+2. Start d development server:
 
 ```bash
-cd backend
-uvicorn app.main:app --reload
-```
-
-2. Start the frontend development server:
-
-```bash
-cd frontend
 npm run dev
 ```
 
 3. Open your browser and navigate to `http://localhost:3000`
-
-## Project Structure
-
-```
-gramo/
-├── backend/
-│   ├── app/
-│   │   ├── config/
-│   │   │   └── settings.py     # Application configuration
-│   │   ├── models/
-│   │   │   └── text_analysis.py # Data models
-│   │   ├── routers/
-│   │   │   └── text_analysis.py # API endpoints
-│   │   ├── services/
-│   │   │   └── writing_agent.py # LLM integration
-│   │   ├── utils/
-│   │   │   ├── text_analysis.py # Analysis utilities
-│   │   │   └── rate_limiter.py  # API rate limiting
-│   │   ├── main.py             # FastAPI application
-│   │   └── test_agents.py      # Test cases
-│   ├── requirements.txt
-│   └── .env
-└── frontend/
-    ├── app/
-    │   └── page.tsx            # Main application page
-    ├── components/
-    │   ├── text-analysis/
-    │   │   ├── text-analysis-overview.tsx
-    │   │   ├── improved-text.tsx
-    │   │   ├── goal-achievement.tsx
-    │   │   └── grammar-issues.tsx
-    │   └── ui/                 # Reusable UI components
-    ├── hooks/
-    │   └── use-text-analysis.ts # Custom text analysis hook
-    └── types/                  # TypeScript type definitions
-```
 
 ## Contributing
 
@@ -140,7 +72,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Acknowledgments
 
-- [Groq](https://groq.com/) for LLM API
-- [LangChain](https://python.langchain.com/) for LLM framework
+- [fal.ai](https://fal.ai/) for LLM API
 - [Shadcn/ui](https://ui.shadcn.com/) for UI components
 - [Next.js](https://nextjs.org/) for the frontend framework

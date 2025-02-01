@@ -1,9 +1,0 @@
-fastapi
-uvicorn
-python-dotenv
-pydantic
-httpx
-python-jose
-tenacity
-groq
-litellm
