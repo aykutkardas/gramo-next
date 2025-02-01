@@ -1,8 +1,8 @@
-# Gramo - Advanced Text Enhancement Platform
+# GramoNext - Advanced Text Enhancement Platform
 
 This project was forked from [onurhan1337/gramo](https://github.com/onurhan1337/gramo) to migrate from Python to Next.js and fal.ai.
 
-Gramo is a modern, AI-powered text enhancement platform that helps users improve their writing through advanced grammar checking, style analysis, and intelligent suggestions. The platform combines the power of large language models with a beautiful, user-friendly interface to provide comprehensive writing assistance.
+GramoNext is a modern, AI-powered text enhancement platform that helps users improve their writing through advanced grammar checking, style analysis, and intelligent suggestions. The platform combines the power of large language models with a beautiful, user-friendly interface to provide comprehensive writing assistance.
 
 ## Features
 
@@ -42,8 +42,8 @@ Gramo is a modern, AI-powered text enhancement platform that helps users improve
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/gramo.git
-cd gramo
+git clone https://github.com/aykutkardas/gramo-next.git
+cd gramo-next
 ```
 
 3. Install Dependencies

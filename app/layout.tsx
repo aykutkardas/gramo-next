@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Gramo - Grammar and Style Assistant",
+  title: "GramoNext - Grammar and Style Assistant",
   description:
     "Improve your writing with AI-powered grammar and style analysis",
 };

@@ -51,7 +51,7 @@ export default function Home() {
               AI Writing Assistant
             </h1>
             <a
-              href="https://github.com/onurhan1337/gramo"
+              href="https://github.com/aykutkardas/gramo-next"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
