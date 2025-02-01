@@ -31,15 +31,13 @@ export function Navbar({
             <MoonIcon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
             <span className="sr-only">Toggle theme</span>
           </button>
-          {!process.env.FAL_KEY && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setKeyDialog(true)}
-            >
-              <SettingsIcon className="w-6 h-6" />
-            </Button>
-          )}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setKeyDialog(true)}
+          >
+            <SettingsIcon className="w-6 h-6" />
+          </Button>
         </div>
       </div>
     </header>

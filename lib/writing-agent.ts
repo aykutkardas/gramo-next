@@ -3,7 +3,10 @@
 import { fal } from "@fal-ai/client";
 
 fal.config({
-  credentials: () => localStorage?.getItem("falKey") as string,
+  credentials: () =>
+    typeof localStorage !== "undefined"
+      ? (localStorage?.getItem("falKey") as string)
+      : undefined,
   proxyUrl: "/api/proxy",
 });
 
