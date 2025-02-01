@@ -4,8 +4,14 @@ import * as React from "react";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import { Button } from "./ui/button";
+import { SettingsIcon } from "lucide-react";
 
-export function Navbar() {
+export function Navbar({
+  setKeyDialog,
+}: {
+  setKeyDialog: (open: boolean) => void;
+}) {
   const { theme, setTheme } = useTheme();
 
   return (
@@ -25,6 +31,15 @@ export function Navbar() {
             <MoonIcon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
             <span className="sr-only">Toggle theme</span>
           </button>
+          {!process.env.FAL_KEY && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setKeyDialog(true)}
+            >
+              <SettingsIcon className="w-6 h-6" />
+            </Button>
+          )}
         </div>
       </div>
     </header>

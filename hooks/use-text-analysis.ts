@@ -4,6 +4,7 @@ import { WritingAgent } from "@/lib/writing-agent";
 
 interface TextAnalysisState {
   text: string;
+  model: string;
   analysis: AnalysisResult | null;
   isLoading: boolean;
   copySuccess: boolean;
@@ -22,6 +23,7 @@ interface TextAnalysisState {
 export function useTextAnalysis() {
   const [state, setState] = useState<TextAnalysisState>({
     text: "",
+    model: "anthropic/claude-3.5-sonnet",
     analysis: null,
     isLoading: false,
     copySuccess: false,
@@ -70,7 +72,8 @@ export function useTextAnalysis() {
         const result = await writingAgent.analyzeText(
           state.text,
           state.outputStyle,
-          state.focusAreas
+          state.focusAreas,
+          state.model
         );
 
         const pros: string[] = [];
@@ -241,6 +244,13 @@ export function useTextAnalysis() {
     }));
   }, []);
 
+  const setModel = useCallback((model: string) => {
+    setState((prev) => ({
+      ...prev,
+      model,
+    }));
+  }, []);
+
   const setFocusAreas = useCallback((areas: string[]) => {
     setState((prev) => ({
       ...prev,
@@ -262,6 +272,7 @@ export function useTextAnalysis() {
     ...state,
     setText,
     setOutputStyle,
+    setModel,
     setFocusAreas,
     copyText,
     analyzeText,

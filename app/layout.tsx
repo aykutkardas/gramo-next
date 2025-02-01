@@ -36,10 +36,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="relative flex min-h-screen flex-col">
-            <Navbar />
-            <div className="flex-1">{children}</div>
-          </div>
+          <div className="relative flex min-h-screen flex-col">{children}</div>
         </ThemeProvider>
       </body>
     </html>

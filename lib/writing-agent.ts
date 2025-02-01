@@ -1,6 +1,9 @@
+"use client";
+
 import { fal } from "@fal-ai/client";
 
 fal.config({
+  credentials: () => localStorage?.getItem("falKey") as string,
   proxyUrl: "/api/proxy",
 });
 
@@ -264,7 +267,8 @@ Return a JSON object with this structure:
   async analyzeText(
     text: string,
     style?: string,
-    focusAreas?: string[]
+    focusAreas?: string[],
+    model?: string
   ): Promise<AnalysisResult> {
     if (!text.trim()) {
       throw new Error("Text cannot be empty");
@@ -293,7 +297,8 @@ Return a JSON object with this structure:
       if (focusAreas?.includes("grammar")) {
         const grammarResponse = await this.processWithAgent(
           this.grammarAgent,
-          `Analyze this text and provide detailed grammar feedback: ${text}`
+          `Analyze this text and provide detailed grammar feedback: ${text}`,
+          model
         );
         if (grammarResponse && typeof grammarResponse === "object") {
           result.analysis.grammar = grammarResponse.analysis;
@@ -309,7 +314,8 @@ Return a JSON object with this structure:
         }: ${result.improved_text}`;
         const styleResponse = await this.processWithAgent(
           this.styleAgent,
-          stylePrompt
+          stylePrompt,
+          model
         );
         if (styleResponse && typeof styleResponse === "object") {
           result.analysis.style = styleResponse.analysis;
@@ -322,7 +328,8 @@ Return a JSON object with this structure:
       if (focusAreas?.includes("structure")) {
         const structureResponse = await this.processWithAgent(
           this.editorAgent,
-          `Analyze this text for structural improvements: ${result.improved_text}`
+          `Analyze this text for structural improvements: ${result.improved_text}`,
+          model
         );
         if (structureResponse && typeof structureResponse === "object") {
           result.analysis.structure = structureResponse.analysis;
@@ -365,7 +372,11 @@ Return a JSON object with this structure:
     }
   }
 
-  private async processWithAgent(agent: Agent, prompt: string): Promise<any> {
+  private async processWithAgent(
+    agent: Agent,
+    prompt: string,
+    model: string = "anthropic/claude-3.5-sonnet"
+  ): Promise<any> {
     const maxRetries = 3;
     const baseDelay = 3; // seconds
 
@@ -374,7 +385,8 @@ Return a JSON object with this structure:
         try {
           const result = await fal.subscribe("fal-ai/any-llm", {
             input: {
-              model: "anthropic/claude-3.5-sonnet",
+              // @ts-expect-error
+              model: model,
               prompt: prompt,
               system_prompt: agent.content,
             },
