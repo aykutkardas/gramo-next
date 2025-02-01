@@ -4,6 +4,8 @@ This project was forked from [onurhan1337/gramo](https://github.com/onurhan1337/
 
 GramoNext is a modern, AI-powered text enhancement platform that helps users improve their writing through advanced grammar checking, style analysis, and intelligent suggestions. The platform combines the power of large language models with a beautiful, user-friendly interface to provide comprehensive writing assistance.
 
+![Preview](https://github.com/aykutkardas/gramo-next/blob/main/preview.png?raw=true)
+
 ## Features
 
 - **Intelligent Text Analysis**: Get comprehensive feedback on grammar, style, and structure
